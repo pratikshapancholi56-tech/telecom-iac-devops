@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: telecom-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: telecom
+  template:
+    metadata:
+      labels:
+        app: telecom
+    spec:
+      containers:
+      - name: telecom
+        image: telecom-app
+        ports:
+        - containerPort: 5000
