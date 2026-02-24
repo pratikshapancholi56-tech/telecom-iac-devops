@@ -1,0 +1,60 @@
+name: Build and Deploy Telecom System
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    
+    - name: Build Docker image
+      run: |
+        cd docker
+        docker build -t telecom-app:latest .
+    
+    - name: Test application
+      run: |
+        docker run -d -p 5000:5000 --name telecom-test telecom-app:latest
+        sleep 5
+        curl -f http://localhost:5000 || exit 1
+        docker stop telecom-test
+        docker rm telecom-test
+    
+    - name: Login to Docker Hub (optional)
+      if: github.event_name == 'push'
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+      continue-on-error: true
+    
+    - name: Push to Docker Hub (optional)
+      if: github.event_name == 'push'
+      run: |
+        docker tag telecom-app:latest ${{ secrets.DOCKER_USERNAME }}/telecom-app:latest
+        docker push ${{ secrets.DOCKER_USERNAME }}/telecom-app:latest
+      continue-on-error: true
+
+  deploy-k8s:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Deploy to Kubernetes
+      run: |
+        echo "Kubernetes deployment would happen here"
+        echo "kubectl apply -f k8s/"

@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TelePay - Payment Dashboard | Group 06</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .top-bar {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        .group-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .services-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 15px;
+        }
+
+        .service-tab {
+            padding: 15px 25px;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .service-tab i {
+            font-size: 1.2rem;
+        }
+
+        .service-tab:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .service-tab.active {
+            background: white;
+            color: #667eea;
+            border-color: white;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .operator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .operator-btn {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .operator-btn:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .operator-btn.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .plans-container {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .plan-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .plan-card:hover {
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .plan-card.selected {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .plan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .plan-amount {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .plan-validity {
+            background: #667eea;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+
+        .plan-details {
+            display: flex;
+            gap: 20px;
+            color: #666;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .transaction-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .transaction-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .transaction-id {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .transaction-status {
+            background: #28a745;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+
+        .transaction-details {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .service-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            background: #667eea;
+            color: white;
+            border-radius: 5px;
+            font-size: 0.8em;
+            margin-right: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .operator-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .services-tabs {
+                gap: 5px;
+            }
+
+            .service-tab {
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <div class="logo">
+                <i class="fas fa-bolt"></i>
+                <span>TelePay</span>
+            </div>
+            <div class="group-badge">
+                <i class="fas fa-users"></i> Group 06
+            </div>
+        </div>
+
+        <div class="header">
+            <h1><i class="fas fa-wallet"></i> Payment Dashboard</h1>
+            <p>Quick & Easy Recharge and Bill Payment for All Services</p>
+        </div>
+
+        <div class="services-tabs">
+            <div class="service-tab active" data-service="mobile">
+                <i class="fas fa-mobile-alt"></i> Mobile
+            </div>
+            <div class="service-tab" data-service="dth">
+                <i class="fas fa-tv"></i> DTH
+            </div>
+            <div class="service-tab" data-service="broadband">
+                <i class="fas fa-wifi"></i> Broadband
+            </div>
+            <div class="service-tab" data-service="postpaid">
+                <i class="fas fa-credit-card"></i> Postpaid
+            </div>
+            <div class="service-tab" data-service="electricity">
+                <i class="fas fa-bolt"></i> Electricity
+            </div>
+            <div class="service-tab" data-service="gas">
+                <i class="fas fa-fire"></i> Gas
+            </div>
+            <div class="service-tab" data-service="water">
+                <i class="fas fa-tint"></i> Water
+            </div>
+            <div class="service-tab" data-service="landline">
+                <i class="fas fa-phone"></i> Landline
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="card">
+                <h2 id="serviceTitle">Mobile Recharge</h2>
+                
+                <div id="alertBox" class="alert"></div>
+
+                <form id="paymentForm">
+                    <div class="form-group">
+                        <label for="accountNumber" id="accountLabel">Mobile Number</label>
+                        <input type="text" id="accountNumber" placeholder="Enter number" required>
+                    </div>
+
+                    <div class="form-group" id="operatorSection">
+                        <label>Select Operator</label>
+                        <div id="operatorGrid" class="operator-grid">
+                            <p style="text-align: center; color: #999;">Loading...</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="planSection">
+                        <label id="planLabel">Select Plan</label>
+                        <div id="plansContainer" class="plans-container">
+                            <p style="text-align: center; color: #999; padding: 20px;">Please select an operator first</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="amountSection" style="display: none;">
+                        <label for="billAmount">Bill Amount (₹)</label>
+                        <input type="number" id="billAmount" placeholder="Enter amount" min="1">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="paymentBtn" disabled>Proceed to Payment</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>Recent Transactions</h2>
+                <div id="transactionsContainer">
+                    <div class="loading">No transactions yet</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentService = 'mobile';
+        let selectedOperator = null;
+        let selectedPlan = null;
+        let operators = {};
+
+        // Service tab switching
+        document.querySelectorAll('.service-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.service-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                currentService = this.dataset.service;
+                selectedOperator = null;
+                selectedPlan = null;
+                
+                loadService(currentService);
+            });
+        });
+
+        async function loadService(service) {
+            // Update title
+            const titles = {
+                'mobile': 'Mobile Recharge',
+                'dth': 'DTH Recharge',
+                'broadband': 'Broadband/Fiber Payment',
+                'postpaid': 'Postpaid Bill Payment',
+                'electricity': 'Electricity Bill Payment',
+                'gas': 'Gas Bill Payment',
+                'water': 'Water Bill Payment',
+                'landline': 'Landline Bill Payment'
+            };
+            document.getElementById('serviceTitle').textContent = titles[service];
+            
+            // Update account label
+            const labels = {
+                'mobile': 'Mobile Number',
+                'dth': 'DTH Subscriber ID',
+                'broadband': 'Account Number',
+                'postpaid': 'Mobile Number',
+                'electricity': 'Consumer Number',
+                'gas': 'Consumer Number',
+                'water': 'Consumer Number',
+                'landline': 'Phone Number'
+            };
+            document.getElementById('accountLabel').textContent = labels[service];
+            document.getElementById('accountNumber').placeholder = `Enter ${labels[service].toLowerCase()}`;
+            document.getElementById('accountNumber').value = '';
+            
+            // Show/hide sections based on service
+            const hasPlan = ['mobile', 'dth', 'broadband'].includes(service);
+            const needsAmount = ['postpaid', 'electricity', 'gas', 'water', 'landline'].includes(service);
+            
+            document.getElementById('planSection').style.display = hasPlan ? 'block' : 'none';
+            document.getElementById('amountSection').style.display = needsAmount ? 'block' : 'none';
+            document.getElementById('planLabel').textContent = service === 'broadband' ? 'Select Plan' : 'Select Plan';
+            
+            // Load operators
+            await loadOperators(service);
+            updatePaymentButton();
+        }
+
+        async function loadOperators(service) {
+            const container = document.getElementById('operatorGrid');
+            container.innerHTML = '<p style="text-align: center; color: #999;">Loading...</p>';
+            
+            try {
+                const response = await fetch(`/api/operators/${service}`);
+                operators = await response.json();
+                
+                container.innerHTML = '';
+                
+                if (service === 'electricity' || service === 'gas' || service === 'water' || service === 'landline') {
+                    // Utility providers - show as dropdown
+                    const providers = operators.providers || [];
+                    providers.forEach(provider => {
+                        const btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = 'operator-btn';
+                        btn.textContent = provider;
+                        btn.dataset.operator = provider;
+                        
+                        btn.addEventListener('click', function() {
+                            document.querySelectorAll('.operator-btn').forEach(b => b.classList.remove('selected'));
+                            this.classList.add('selected');
+                            selectedOperator = provider;
+                            selectedPlan = null;
+                            updatePaymentButton();
+                        });
+                        
+                        container.appendChild(btn);
+                    });
+                } else {
+                    // Telecom operators
+                    Object.keys(operators).forEach(key => {
+                        const op = operators[key];
+                        const btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = 'operator-btn';
+                        btn.textContent = op.name;
+                        btn.dataset.operator = key;
+                        
+                        btn.addEventListener('click', async function() {
+                            document.querySelectorAll('.operator-btn').forEach(b => b.classList.remove('selected'));
+                            this.classList.add('selected');
+                            selectedOperator = key;
+                            selectedPlan = null;
+                            
+                            if (['mobile', 'dth', 'broadband'].includes(currentService)) {
+                                await loadPlans(currentService, key);
+                            }
+                            updatePaymentButton();
+                        });
+                        
+                        container.appendChild(btn);
+                    });
+                }
+            } catch (error) {
+                container.innerHTML = '<p style="color: red; text-align: center;">Error loading operators</p>';
+            }
+        }
+
+        async function loadPlans(service, operator) {
+            const container = document.getElementById('plansContainer');
+            container.innerHTML = '<div class="loading">Loading plans...</div>';
+            
+            try {
+                const response = await fetch(`/api/plans/${service}/${operator}`);
+                const plans = await response.json();
+                
+                container.innerHTML = '';
+                plans.forEach(plan => {
+                    const planCard = document.createElement('div');
+                    planCard.className = 'plan-card';
+                    planCard.dataset.planId = plan.id;
+                    
+                    let detailsHTML = '';
+                    if (service === 'mobile') {
+                        detailsHTML = `
+                            <div class="plan-details">
+                                <div>📊 ${plan.data}</div>
+                                <div>📞 ${plan.calls}</div>
+                            </div>
+                        `;
+                    } else if (service === 'dth') {
+                        detailsHTML = `
+                            <div class="plan-details">
+                                <div>📺 ${plan.channels}</div>
+                                <div>🎬 ${plan.type}</div>
+                            </div>
+                        `;
+                    } else if (service === 'broadband') {
+                        detailsHTML = `
+                            <div class="plan-details">
+                                <div>⚡ ${plan.speed}</div>
+                                <div>📊 ${plan.data}</div>
+                                <div>🎬 ${plan.ott}</div>
+                            </div>
+                        `;
+                    }
+                    
+                    planCard.innerHTML = `
+                        <div class="plan-header">
+                            <div class="plan-amount">₹${plan.amount}</div>
+                            <div class="plan-validity">${plan.validity}</div>
+                        </div>
+                        ${detailsHTML}
+                    `;
+                    
+                    planCard.addEventListener('click', function() {
+                        document.querySelectorAll('.plan-card').forEach(p => p.classList.remove('selected'));
+                        this.classList.add('selected');
+                        selectedPlan = plan;
+                        updatePaymentButton();
+                    });
+                    
+                    container.appendChild(planCard);
+                });
+            } catch (error) {
+                container.innerHTML = '<p style="color: red; text-align: center;">Error loading plans</p>';
+            }
+        }
+
+        function updatePaymentButton() {
+            const btn = document.getElementById('paymentBtn');
+            const hasPlan = ['mobile', 'dth', 'broadband'].includes(currentService);
+            const needsAmount = ['postpaid', 'electricity', 'gas', 'water', 'landline'].includes(currentService);
+            
+            if (hasPlan) {
+                btn.disabled = !(selectedOperator && selectedPlan);
+            } else if (needsAmount) {
+                btn.disabled = !selectedOperator;
+            }
+        }
+
+        // Form submission
+        document.getElementById('paymentForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const accountNumber = document.getElementById('accountNumber').value.trim();
+            const alertBox = document.getElementById('alertBox');
+            
+            if (!accountNumber) {
+                showAlert('Please enter account/mobile number', 'error');
+                return;
+            }
+            
+            if (!selectedOperator) {
+                showAlert('Please select an operator', 'error');
+                return;
+            }
+            
+            const hasPlan = ['mobile', 'dth', 'broadband'].includes(currentService);
+            const needsAmount = ['postpaid', 'electricity', 'gas', 'water', 'landline'].includes(currentService);
+            
+            if (hasPlan && !selectedPlan) {
+                showAlert('Please select a plan', 'error');
+                return;
+            }
+            
+            let amount = 0;
+            if (needsAmount) {
+                amount = parseInt(document.getElementById('billAmount').value);
+                if (!amount || amount <= 0) {
+                    showAlert('Please enter a valid amount', 'error');
+                    return;
+                }
+            }
+            
+            // Disable button
+            const btn = document.getElementById('paymentBtn');
+            btn.disabled = true;
+            btn.textContent = 'Processing...';
+            
+            try {
+                const payload = {
+                    service_type: currentService,
+                    account_number: accountNumber,
+                    operator: selectedOperator,
+                    plan_id: selectedPlan ? selectedPlan.id : null,
+                    amount: amount
+                };
+                
+                const response = await fetch('/api/recharge', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showAlert(`✅ ${result.message}<br>Transaction ID: ${result.transaction_id}`, 'success');
+                    
+                    // Reset form
+                    document.getElementById('accountNumber').value = '';
+                    document.getElementById('billAmount').value = '';
+                    document.querySelectorAll('.operator-btn').forEach(b => b.classList.remove('selected'));
+                    document.querySelectorAll('.plan-card').forEach(p => p.classList.remove('selected'));
+                    if (hasPlan) {
+                        document.getElementById('plansContainer').innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">Please select an operator first</p>';
+                    }
+                    selectedOperator = null;
+                    selectedPlan = null;
+                    
+                    // Reload transactions
+                    loadTransactions();
+                } else {
+                    showAlert('❌ ' + result.error, 'error');
+                }
+            } catch (error) {
+                showAlert('❌ Network error. Please try again.', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Proceed to Payment';
+                updatePaymentButton();
+            }
+        });
+
+        function showAlert(message, type) {
+            const alertBox = document.getElementById('alertBox');
+            alertBox.className = `alert alert-${type}`;
+            alertBox.innerHTML = message;
+            alertBox.style.display = 'block';
+            
+            setTimeout(() => {
+                alertBox.style.display = 'none';
+            }, 5000);
+        }
+
+        async function loadTransactions() {
+            const container = document.getElementById('transactionsContainer');
+            
+            try {
+                const response = await fetch('/api/transactions');
+                const transactions = await response.json();
+                
+                if (transactions.length === 0) {
+                    container.innerHTML = '<div class="loading">No transactions yet</div>';
+                    return;
+                }
+                
+                container.innerHTML = '';
+                transactions.reverse().forEach(txn => {
+                    const txnItem = document.createElement('div');
+                    txnItem.className = 'transaction-item';
+                    
+                    const serviceIcons = {
+                        'mobile': '📱',
+                        'dth': '📺',
+                        'broadband': '🌐',
+                        'postpaid': '💳',
+                        'electricity': '⚡',
+                        'gas': '🔥',
+                        'water': '💧',
+                        'landline': '☎️'
+                    };
+                    
+                    let detailsHTML = '';
+                    if (txn.plan && txn.plan.data) {
+                        detailsHTML = `<div>₹${txn.amount} | ${txn.plan.validity} | ${txn.plan.data}</div>`;
+                    } else if (txn.plan && txn.plan.channels) {
+                        detailsHTML = `<div>₹${txn.amount} | ${txn.plan.validity} | ${txn.plan.channels}</div>`;
+                    } else if (txn.plan && txn.plan.speed) {
+                        detailsHTML = `<div>₹${txn.amount} | ${txn.plan.speed} | ${txn.plan.ott}</div>`;
+                    } else {
+                        detailsHTML = `<div>₹${txn.amount} | Bill Payment</div>`;
+                    }
+                    
+                    txnItem.innerHTML = `
+                        <div class="transaction-header">
+                            <div class="transaction-id">${txn.id}</div>
+                            <div class="transaction-status">${txn.status}</div>
+                        </div>
+                        <div class="transaction-details">
+                            <div><span class="service-badge">${serviceIcons[txn.service_type]} ${txn.service_type.toUpperCase()}</span> <strong>${txn.operator}</strong> - ${txn.account_number}</div>
+                            ${detailsHTML}
+                            <div style="margin-top: 5px; font-size: 0.85em;">${txn.timestamp}</div>
+                        </div>
+                    `;
+                    container.appendChild(txnItem);
+                });
+            } catch (error) {
+                container.innerHTML = '<div class="loading">Error loading transactions</div>';
+            }
+        }
+
+        // Initialize
+        loadService('mobile');
+        loadTransactions();
+        
+        // Refresh transactions every 30 seconds
+        setInterval(loadTransactions, 30000);
+    </script>
+</body>
+</html>

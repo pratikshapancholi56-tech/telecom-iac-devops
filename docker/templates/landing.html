@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TelePay - Indian Telecom & Utility Payment Platform | Group 06</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            min-height: 90vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            top: -200px;
+            right: -200px;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            bottom: -100px;
+            left: -100px;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            color: white;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .group-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .phone-mockup {
+            width: 300px;
+            height: 600px;
+            background: white;
+            border-radius: 40px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            padding: 15px;
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 2rem;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 6rem 2rem;
+            background: #f8f9fa;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .services-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .service-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 2rem;
+            background: white;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+
+        .feature-item {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .feature-content h3 {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-content p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Infrastructure Section */
+        .infrastructure {
+            padding: 6rem 2rem;
+            background: #f8f9fa;
+        }
+
+        .infra-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .infra-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .infra-card i {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .infra-card h4 {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .infra-card p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Team Section */
+        .team {
+            padding: 6rem 2rem;
+            background: white;
+        }
+
+        .team-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .group-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+        }
+
+        .group-info h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .group-info p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a1a2e;
+            color: white;
+            padding: 3rem 2rem 1rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.7);
+        }
+
+        @media (max-width: 768px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-image {
+                display: none;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-bolt"></i>
+                <span>TelePay</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#infrastructure">Infrastructure</a></li>
+                <li><a href="#team">Team</a></li>
+            </ul>
+            <a href="/app" class="btn-primary">Launch App</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="group-badge">
+                    <i class="fas fa-users"></i> Group 06 Project
+                </div>
+                <h1>Complete Telecom & Utility Payment Platform</h1>
+                <p>Recharge mobile, DTH, broadband and pay all utility bills in one place. Fast, secure, and automated with Infrastructure as Code.</p>
+                <a href="/app" class="btn-primary" style="display: inline-block; margin-top: 1rem;">
+                    <i class="fas fa-rocket"></i> Get Started
+                </a>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">8+</span>
+                        <span class="stat-label">Services</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">20+</span>
+                        <span class="stat-label">Operators</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Automated</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-image">
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <i class="fas fa-mobile-alt" style="font-size: 4rem; margin-bottom: 1rem;"></i>
+                        <h3>TelePay</h3>
+                        <p style="font-size: 0.9rem; opacity: 0.9;">All-in-One Payment Solution</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="section-header">
+            <h2>Our Services</h2>
+            <p>Complete payment solutions for all your telecom and utility needs</p>
+        </div>
+        
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>Mobile Recharge</h3>
+                <p>Instant recharge for Airtel, Jio, Vi, and BSNL with multiple plans</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-tv"></i>
+                </div>
+                <h3>DTH Recharge</h3>
+                <p>Recharge Tata Play, Airtel DTH, Dish TV, and Sun Direct</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-wifi"></i>
+                </div>
+                <h3>Broadband/Fiber</h3>
+                <p>Pay for Jio Fiber, Airtel Xstream, BSNL, and ACT Fibernet</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                <h3>Postpaid Bills</h3>
+                <p>Pay monthly postpaid bills for all major operators</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3>Electricity Bills</h3>
+                <p>Pay electricity bills for all major power providers</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <h3>Gas Bills</h3>
+                <p>Pay gas bills for Indraprastha, Mahanagar, and more</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-tint"></i>
+                </div>
+                <h3>Water Bills</h3>
+                <p>Pay water bills for municipal corporations</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-phone"></i>
+                </div>
+                <h3>Landline Bills</h3>
+                <p>Pay BSNL, MTNL, and Airtel landline bills</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <h2>Why Choose TelePay?</h2>
+            <p>Built with modern technology and best practices</p>
+        </div>
+        
+        <div class="features-container">
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="feature-content">
+                    <h3>Instant Processing</h3>
+                    <p>Real-time transaction processing with immediate confirmation and unique transaction IDs</p>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="feature-content">
+                    <h3>Secure & Reliable</h3>
+                    <p>Built with security best practices, input validation, and error handling</p>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-history"></i>
+                </div>
+                <div class="feature-content">
+                    <h3>Transaction History</h3>
+                    <p>Track all your payments with detailed transaction history and receipts</p>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile"></i>
+                </div>
+                <div class="feature-content">
+                    <h3>Responsive Design</h3>
+                    <p>Works seamlessly on desktop, tablet, and mobile devices</p>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="feature-content">
+                    <h3>Smart Validation</h3>
+                    <p>Intelligent form validation ensures error-free transactions</p>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="feature-content">
+                    <h3>24/7 Available</h3>
+                    <p>Service available round the clock for your convenience</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Infrastructure Section -->
+    <section class="infrastructure" id="infrastructure">
+        <div class="section-header">
+            <h2>Infrastructure as Code</h2>
+            <p>Automated deployment with modern DevOps practices</p>
+        </div>
+        
+        <div class="infra-grid">
+            <div class="infra-card">
+                <i class="fab fa-docker"></i>
+                <h4>Docker</h4>
+                <p>Containerized deployment</p>
+            </div>
+            
+            <div class="infra-card">
+                <i class="fas fa-dharmachakra"></i>
+                <h4>Kubernetes</h4>
+                <p>Orchestration & scaling</p>
+            </div>
+            
+            <div class="infra-card">
+                <i class="fas fa-code-branch"></i>
+                <h4>Terraform</h4>
+                <p>Infrastructure provisioning</p>
+            </div>
+            
+            <div class="infra-card">
+                <i class="fas fa-cogs"></i>
+                <h4>Ansible</h4>
+                <p>Configuration management</p>
+            </div>
+            
+            <div class="infra-card">
+                <i class="fab fa-aws"></i>
+                <h4>AWS Cloud</h4>
+                <p>Cloud deployment</p>
+            </div>
+            
+            <div class="infra-card">
+                <i class="fas fa-sync-alt"></i>
+                <h4>CI/CD</h4>
+                <p>Automated pipelines</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team" id="team">
+        <div class="team-container">
+            <div class="group-info">
+                <h3><i class="fas fa-users"></i> Group 06</h3>
+                <p>Infrastructure as Code (IaC) Provisioning for Telecom System</p>
+                <p style="margin-top: 1rem; font-size: 1rem;">
+                    A comprehensive project demonstrating automated infrastructure provisioning, 
+                    containerization, orchestration, and cloud deployment for a production-ready telecom payment platform.
+                </p>
+            </div>
+            
+            <div class="section-header">
+                <h2>Project Highlights</h2>
+            </div>
+            
+            <div class="features-container" style="margin-top: 2rem;">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Full Stack Application</h3>
+                        <p>Python Flask backend with modern responsive frontend</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Multi-Cloud Ready</h3>
+                        <p>Deploy on AWS, local Docker, or Kubernetes clusters</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Fully Automated</h3>
+                        <p>One-command deployment with automated testing</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4><i class="fas fa-bolt"></i> TelePay</h4>
+                <p style="color: rgba(255,255,255,0.7); margin-top: 1rem;">
+                    Complete telecom and utility payment platform with automated infrastructure deployment.
+                </p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="/app">Mobile Recharge</a></li>
+                    <li><a href="/app">DTH Recharge</a></li>
+                    <li><a href="/app">Broadband Payment</a></li>
+                    <li><a href="/app">Bill Payments</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Technology</h4>
+                <ul>
+                    <li><a href="#">Docker</a></li>
+                    <li><a href="#">Kubernetes</a></li>
+                    <li><a href="#">Terraform</a></li>
+                    <li><a href="#">Ansible</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Project</h4>
+                <ul>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">GitHub Repository</a></li>
+                    <li><a href="#">Deployment Guide</a></li>
+                    <li><a href="#">API Reference</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 TelePay - Group 06 | IaC Provisioning for Telecom System</p>
+        </div>
+    </footer>
+</body>
+</html>
